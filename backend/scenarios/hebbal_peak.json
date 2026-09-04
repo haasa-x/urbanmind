@@ -1,0 +1,16 @@
+{
+  "id": "SC03",
+  "name": "Hebbal Peak Congestion",
+  "severity": 2,
+  "events": [
+    {"t": 0, "type": "SET_DENSITY", "data": {"H1": 0.55, "H2": 0.6, "H3": 0.5, "H4": 0.58, "H5": 0.52}},
+    {"t": 10, "type": "ADD_MESSAGE", "data": {"agent": "PredictionAgent", "text": "Peak build-up forecast for Hebbal in T+15min.", "color": "#f59e0b"}},
+    {"t": 25, "type": "SET_DENSITY", "data": {"H1": 0.82, "H2": 0.78, "H3": 0.7, "H4": 0.75, "H5": 0.68}},
+    {"t": 28, "type": "ADD_MESSAGE", "data": {"agent": "InterventionAgent", "text": "Adaptive signal cycle lengthened on H1-H2 arterial.", "color": "#3b82f6"}},
+    {"t": 34, "type": "ADD_MESSAGE", "data": {"agent": "ConstraintAgent", "text": "R-22C override APPROVED for adaptive plan.", "color": "#ef4444"}},
+    {"t": 55, "type": "ADD_MESSAGE", "data": {"agent": "EmissionAgent", "text": "Projected CO2 avoided: 95 kg.", "color": "#10b981"}},
+    {"t": 70, "type": "SET_DENSITY", "data": {"H1": 0.65, "H2": 0.6, "H3": 0.55, "H4": 0.58, "H5": 0.5}},
+    {"t": 80, "type": "INCREMENT_METRICS", "data": {"vehicle_minutes_saved": 512, "co2_avoided_kg": 95, "corridors_cleared": 0, "incidents_prevented": 1}},
+    {"t": 95, "type": "SET_COMPLETION", "data": {"text": "SCENARIO COMPLETE — Hebbal peak mitigated."}}
+  ]
+}

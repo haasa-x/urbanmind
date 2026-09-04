@@ -1,0 +1,10 @@
+Hospital Capability & Selection Guidance
+==========================================
+H-1 Capability matrix: Manipal (HAL) — Level-1 trauma, 24x7 neuro-ICU.
+St. Johns — Level-2 trauma, burn unit. Sakra — Level-1 trauma, cath lab.
+
+H-2 Selection ranking: Rank candidate hospitals by (trauma_level, ETA,
+current_ED_load). Break ties on capability, not distance.
+
+H-3 Diversion: If ED occupancy > 95 %, HospitalRoutingAgent must select the
+next-ranked candidate and re-run pre-arrival notification.

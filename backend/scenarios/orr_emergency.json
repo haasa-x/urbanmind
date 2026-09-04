@@ -1,0 +1,20 @@
+{
+  "id": "SC02",
+  "name": "ORR Emergency Convoy",
+  "severity": 4,
+  "events": [
+    {"t": 0, "type": "SET_DENSITY", "data": {"O1": 0.5, "O2": 0.6, "O3": 0.55, "O4": 0.48, "O5": 0.52}},
+    {"t": 8, "type": "ADD_MESSAGE", "data": {"agent": "IncidentAgent", "text": "VIP convoy request received for ORR corridor.", "color": "#f59e0b"}},
+    {"t": 20, "type": "SET_EMERGENCY", "data": {"value": true}},
+    {"t": 20, "type": "SET_ROUTE", "data": {"value": true}},
+    {"t": 20, "type": "ADD_MESSAGE", "data": {"agent": "EmergencyCorridorAgent", "text": "Corridor O1 -> O3 -> O5 pre-empted for convoy.", "color": "#06b6d4"}},
+    {"t": 24, "type": "ADD_MESSAGE", "data": {"agent": "ConstraintAgent", "text": "R-14B active. R-05E public advisory dispatched.", "color": "#ef4444"}},
+    {"t": 28, "type": "ADD_ALERT", "data": {"department": "Traffic Police", "icon": "🚔", "message": "ORR convoy escort O1 to O5. Hold cross-traffic 4 min."}},
+    {"t": 28, "type": "ADD_ALERT", "data": {"department": "Public", "icon": "📱", "message": "Brief ORR delay 12:40-12:48. Use alternate service road."}},
+    {"t": 45, "type": "SET_NARRATOR", "data": {"operator": "Convoy corridor holding; cross-traffic released in 90s.", "public": "Short ORR delay is over; regular flow resuming.", "audit": "AUDIT: Convoy pass logged per R-14B; no incidents."}},
+    {"t": 60, "type": "INCREMENT_METRICS", "data": {"vehicle_minutes_saved": 320, "co2_avoided_kg": 60, "corridors_cleared": 1, "incidents_prevented": 0}},
+    {"t": 75, "type": "SET_EMERGENCY", "data": {"value": false}},
+    {"t": 75, "type": "SET_ROUTE", "data": {"value": false}},
+    {"t": 80, "type": "SET_COMPLETION", "data": {"text": "SCENARIO COMPLETE — ORR convoy corridor released."}}
+  ]
+}

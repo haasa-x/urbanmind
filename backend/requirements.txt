@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+langgraph
+langchain-groq
+python-dotenv
+httpx
+transformers
+torch
+pillow
+python-multipart

@@ -1,0 +1,12 @@
+Traffic Police Standard Operating Procedures
+==============================================
+SOP-P1 Accident on arterial road: First responder logs incident, requests
+tow, cordons a 100 m upstream buffer, and files a preliminary report within
+15 minutes. Notify InterventionAgent for signal override request.
+
+SOP-P2 Ambulance escort: Police pilot vehicle leads the emergency corridor
+from the closest cross-junction to the destination hospital. Signal phase is
+pre-empted (R-14B).
+
+SOP-P3 Citizen alert: Public advisory is issued through the BMTC and BBMP
+channels within 5 minutes of a severity>=4 event.

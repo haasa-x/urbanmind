@@ -1,0 +1,12 @@
+EMS Pre-arrival & Trauma Protocols
+====================================
+EMS-1 Trauma triage: Patients with GCS < 9, penetrating trauma, or
+suspected internal bleeding are routed to Level-1 trauma capability
+hospitals only.
+
+EMS-2 Pre-arrival notification: Ambulance crew must transmit vitals and
+mechanism-of-injury 5 minutes before arrival so the hospital ED can prep
+the appropriate bay.
+
+EMS-3 Ambulance selection: Nearest available ALS unit within 4 km takes
+priority over closer BLS units for severity >= 4.

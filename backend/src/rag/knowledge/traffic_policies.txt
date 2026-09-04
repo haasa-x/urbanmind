@@ -1,0 +1,17 @@
+UrbanMind Traffic Policies
+==========================
+Policy TP-1 Lane closure: A lane closure requires 20 minutes advance public
+advisory, cone barrier placement, and a signed BBMP diversion plan. Do not
+close more than 3 concurrent lanes per corridor (rule R-31D).
+
+Policy TP-2 Signal phase: Adaptive signal phasing may extend a green phase by
+up to 15 seconds during an active emergency corridor. Bus stop dwell times
+must be respected within a 50 m buffer.
+
+Policy TP-3 School zone: Speed is capped at 25 km/h in school zones between
+07:30-09:30 and 14:00-16:30. Signal preemption is disabled inside school
+zones during those windows.
+
+Policy TP-4 Monsoon: During monsoon rainfall > 25 mm/hour, all elevated
+corridors reduce speed by 20 km/h and open drains are inspected within 30
+minutes. Waterlogged junctions get a priority BBMP dispatch.

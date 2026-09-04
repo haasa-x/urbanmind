@@ -1,0 +1,15 @@
+Emergency Corridor Rules
+==========================
+C-1 Corridor definition: An emergency corridor is the sequence of signalized
+junctions along the fastest ambulance path, preempted for green-wave.
+
+C-2 Citizen alert: A push advisory must reach every commuter within 500 m
+of the corridor at least 60 seconds before the ambulance arrives at each
+junction.
+
+C-3 Signal preemption: EmergencyCorridorAgent hands the phase plan to the
+signal controller; ConstraintAgent must acknowledge (R-22C) before any
+signal is forced.
+
+C-4 Ambulance ETA: Publish updated ambulance ETA to citizen apps every 15
+seconds while the corridor is active.
