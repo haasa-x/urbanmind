@@ -58,3 +58,7 @@ backend/venv/
 frontend/node_modules/
 frontend/dist/
 frontend/node_modules/.vite/
+
+# Local documentation (not tracked)
+UrbanMind_2.0_Documentation.pdf
+*.pdf
