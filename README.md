@@ -74,19 +74,6 @@ cd frontend && npm run dev
 
 ---
 
-## URLs
-
-| Surface | URL |
-| --- | --- |
-| Operator dashboard | http://localhost:5173/ |
-| Citizen page | http://localhost:5173/citizen |
-| Ambulance crew | http://localhost:5173/dept/ambulance |
-| Traffic Police | http://localhost:5173/dept/police |
-| Hospital | http://localhost:5173/dept/hospital |
-| Fire | http://localhost:5173/dept/fire |
-| Public info board | http://localhost:5173/dept/public |
-| BBMP audit | http://localhost:5173/dept/bbmp |
-| Swagger docs | http://localhost:8000/docs |
 
 ---
 
@@ -115,18 +102,6 @@ Set `NO_COLOR=1` to strip ANSI escapes.
 
 ---
 
-## Scripted scenarios
-
-Three pre-scripted incidents replay against a running backend:
-
-```bash
-cd backend && source venv/bin/activate
-python replay.py scenarios/silk_board.json 3.0     # SC-01 · Silk Board multi-vehicle
-python replay.py scenarios/orr_emergency.json 3.0  # SC-02 · ORR VIP corridor
-python replay.py scenarios/hebbal_peak.json 3.0    # SC-03 · Hebbal peak
-```
-
-Or click the SC-01/02/03 buttons in the sidebar.
 
 ---
 
@@ -198,11 +173,7 @@ curl -sN http://localhost:8000/stream
 
 ---
 
-## Full documentation
 
-A 15-section technical PDF walks through architecture, every agent, the LLM+RAG pipeline, networking, logging, and system-design concepts.
-
----
 
 ## License
 
