@@ -18,13 +18,13 @@ const AGENTS = [
 
 const PARALLEL = new Set(['police', 'ems', 'hospital'])
 
-function statusFor(a, activeAgents, firing, sequence, isComplete) {
+function statusFor(a, activeAgents, firing, sequence, completedAgents) {
   const inSequence = sequence ? sequence.has(a.full) : true
   if (sequence && !inSequence) return 'NOT_TRIGGERED'
   if (!firing.has(a.name)) return 'NOT_TRIGGERED'
   const activeNow = activeAgents.has(a.name) || activeAgents.has(a.id)
-  if (isComplete.has(a.name)) return 'COMPLETE'
   if (activeNow) return 'FIRING'
+  if (completedAgents && (completedAgents.has(a.name) || completedAgents.has(a.id))) return 'COMPLETE'
   return 'IDLE'
 }
 
@@ -88,13 +88,11 @@ function Row({ agent, idx, status, decision, sources, onHover }) {
   )
 }
 
-export default function AgentWorkflowPanel({ activeAgents = new Set(), severity = 3, supervisorPlan = null }) {
+export default function AgentWorkflowPanel({ activeAgents = new Set(), completedAgents = new Set(), severity = 3, supervisorPlan = null }) {
   const meta = severityMeta(severity)
   const firing = new Set(meta.agents_firing)
   const sequence = supervisorPlan && Array.isArray(supervisorPlan.sequence)
     ? new Set(supervisorPlan.sequence) : null
-  // A "complete" set for demo — infer: an agent that once fired but is not currently active
-  const isComplete = new Set()
 
   const sequential = AGENTS.filter(a => !PARALLEL.has(a.id))
   const parallel = AGENTS.filter(a => PARALLEL.has(a.id))
@@ -118,7 +116,7 @@ export default function AgentWorkflowPanel({ activeAgents = new Set(), severity 
       </div>
       {sequential.map((a, i) => (
         <Row key={a.id} agent={a} idx={i + 1}
-          status={statusFor(a, activeAgents, firing, sequence, isComplete)}
+          status={statusFor(a, activeAgents, firing, sequence, completedAgents)}
           decision={supervisorPlan && supervisorPlan.reasoning ? '' : ''}
           sources={a.full}
         />
@@ -129,7 +127,7 @@ export default function AgentWorkflowPanel({ activeAgents = new Set(), severity 
       }}>PARALLEL ACTIVATION</div>
       {parallel.map((a, i) => (
         <Row key={a.id} agent={a} idx={sequential.length + i + 1}
-          status={statusFor(a, activeAgents, firing, sequence, isComplete)}
+          status={statusFor(a, activeAgents, firing, sequence, completedAgents)}
           decision=""
           sources={a.full}
         />

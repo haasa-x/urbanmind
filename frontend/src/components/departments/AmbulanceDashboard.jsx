@@ -125,6 +125,14 @@ export default function AmbulanceDashboard() {
         if (!evt || !evt.type) return
         if (evt.type === 'SCENARIO_LOADED' && evt.data) {
           setScenario(evt.data)
+          // Reset stale state from any previous incident so the dashboard
+          // fully joins the new live incident.
+          setAlerts([])
+          setMedical([])
+          setRoute(null)
+          setT0(null)
+          setBriefResult(null)
+          setBriefError(null)
           // Re-pick nearest trauma-capable hospital for the new origin so the
           // mini-map is not stuck on the SC01 default. Backend may override
           // via SET_HOSPITAL a moment later.

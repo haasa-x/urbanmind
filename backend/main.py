@@ -313,25 +313,15 @@ def _run_graph_streaming(state):
              f"{plan.get('sequence_key','?').upper()} · priority {plan.get('priority_level','?')}",
              extra=f"sequence=[{', '.join(plan.get('sequence', []))}]")
         _enqueue_sync({"type": "SUPERVISOR_PLAN", "data": plan})
+    # Flush CommsAgent multi-audience briefs to SSE. Scripted scenarios that
+    # bake explicit SET_NARRATOR events into their JSON still win (the client
+    # merges); custom incidents rely on this fallback so the NarratorPanel
+    # updates after the graph run finishes.
+    narr = getattr(state, "narrator_outputs", None) or {}
+    if narr.get("operator") or narr.get("public") or narr.get("audit"):
+        _enqueue_sync({"type": "SET_NARRATOR", "data": dict(narr)})
+        _log("MSG", "CommsAgent", "briefs flushed to SSE", extra="via SET_NARRATOR")
     print("────────────────────────────────────────────────────────────────\n", flush=True)
-
-
-BASE_METRICS = {
-    "vehicle_minutes_saved": 500,
-    "co2_avoided_kg": 120,
-    "corridors_cleared": 1,
-    "incidents_prevented": 1,
-}
-
-
-def _scaled_metrics(sev: int):
-    cfg = get_sev(sev)
-    return {
-        "vehicle_minutes_saved": int(BASE_METRICS["vehicle_minutes_saved"] * cfg["vehicle_minutes_multiplier"]),
-        "co2_avoided_kg": int(BASE_METRICS["co2_avoided_kg"] * cfg["co2_multiplier"]),
-        "corridors_cleared": 1 if cfg.get("emergency_corridor") else 0,
-        "incidents_prevented": 1 if cfg.get("is_accident") else 0,
-    }
 
 
 @app.post("/invoke_scenario/{scenario_id}")
@@ -359,11 +349,6 @@ async def invoke_scenario(scenario_id: str):
     plan = city_state.__dict__.get("_supervisor_plan")
     if plan:
         await _enqueue({"type": "SUPERVISOR_PLAN", "data": plan})
-
-    metrics = _scaled_metrics(sev)
-    for k, v in metrics.items():
-        city_state.metrics[k] = city_state.metrics.get(k, 0) + v
-    await _enqueue({"type": "INCREMENT_METRICS", "data": metrics})
 
     return {"ok": True, "scenario": sid, "junction": junction, "severity": sev,
             "new_messages": len(city_state.messages) - msg_start}
@@ -530,11 +515,19 @@ async def _run_custom_impl(body: dict) -> dict:
     # agents; department alerts should still fire based on severity.
     try:
         incident_type = parsed.get("incident_type") or ("accident" if body_is_accident else "congestion")
+        # Fire detection: promote incident_type to "fire" when the citizen's
+        # description signals fire/smoke/hazmat so downstream department
+        # filtering also treats this as fire.
+        _fire_kw = ("fire", "smoke", "hazmat", "chemical spill", "burn", "flame", "blaze")
+        _desc_low = (description or "").lower()
+        if any(k in _desc_low for k in _fire_kw) and incident_type not in ("fire", "hazmat"):
+            incident_type = "fire"
         dispatched = AlertDispatcher.dispatch(
             incident_type=incident_type,
             severity=severity,
             location=location or junction,
             selected_hospital=getattr(city_state, "selected_hospital", None),
+            description=description,
         )
         for a in dispatched:
             city_state.push_alert(a.get("department", ""), a.get("message", ""), a.get("icon", "!"))
@@ -545,11 +538,6 @@ async def _run_custom_impl(body: dict) -> dict:
             }})
     except Exception as e:
         city_state.push_message("System", f"Alert dispatch failed: {e}", "#ef4444")
-
-    metrics = _scaled_metrics(severity)
-    for k, v in metrics.items():
-        city_state.metrics[k] = city_state.metrics.get(k, 0) + v
-    await _enqueue({"type": "INCREMENT_METRICS", "data": metrics})
 
     # Clear custom banner after a while
     async def _clear_banner():
@@ -647,7 +635,7 @@ async def medical_assessment(body: dict):
     raw = str(body.get("raw_assessment_text", "")).strip()
     if not raw:
         return {"error": "raw_assessment_text required"}
-    from agents import ems, hospital_routing
+    from agents import ems, hospital_routing, narrator
     summary = ems.assess(raw, incident_id)
     city_state.__dict__["_ems_assessment"] = summary
     # Origin: prefer the live custom-scenario junction, else Silk Board fallback.
@@ -687,6 +675,59 @@ async def medical_assessment(body: dict):
     })
     if hospital:
         await _enqueue({"type": "SET_HOSPITAL", "data": hospital})
+
+    # Fire CommsAgent (narrator) to refresh operator/public/audit narratives
+    # reflecting the newly selected hospital.
+    orig_msg = city_state.push_message
+
+    def _patched_msg(agent, text, color):
+        orig_msg(agent, text, color)
+        _log("MSG", agent, text)
+        _enqueue_sync({"type": "ADD_MESSAGE", "data": {"agent": agent, "text": text, "color": color}})
+        _enqueue_sync({"type": "AGENT_STATE", "data": {
+            "agent": agent, "status": "completed",
+            "timestamp": datetime.utcnow().isoformat(),
+        }})
+
+    city_state.push_message = _patched_msg
+    try:
+        narrator.run(city_state)
+    except Exception as e:
+        _log("MSG", "System", f"CommsAgent failed: {e}")
+    finally:
+        city_state.push_message = orig_msg
+    try:
+        await _enqueue({"type": "SET_NARRATOR", "data": dict(city_state.narrator_outputs)})
+        _log("MSG", "CommsAgent", "Narratives updated after medical assessment.")
+    except Exception:
+        pass
+
+    # Broadcast make-way alert to citizens near the corridor.
+    if hospital and hospital.get("lat"):
+        corridor_text = (
+            f"Emergency ambulance en route to {hospital['name']}. "
+            "Please make way and yield to blue flashing lights."
+        )
+        origin_j = None
+        try:
+            cs = getattr(city_state, "custom_scenario", None) or {}
+            origin_j = (cs.get("junctions") or [None])[0]
+        except Exception:
+            origin_j = None
+        make_way = {
+            "type": "CITIZEN_MAKE_WAY",
+            "data": {
+                "message": corridor_text,
+                "hospital": hospital.get("name"),
+                "origin": origin_j,
+                "eta_min": hospital.get("eta_from_J1") or hospital.get("eta"),
+                "timestamp": datetime.utcnow().isoformat(),
+            },
+        }
+        await _enqueue(make_way)
+        _log("MSG", "System", "Citizen make-way broadcast",
+             extra=f"hospital={hospital.get('name')} eta={hospital.get('eta_from_J1')}")
+
     return {"ok": True, "summary": summary, "hospital": hospital}
 
 

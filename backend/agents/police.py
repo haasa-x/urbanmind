@@ -87,9 +87,16 @@ def run(state):
 
     state.__dict__["_police_assignment"] = out
     ref_tag = refs[0] if refs else "sops"
+    hospital = getattr(state, "selected_hospital", None) or {}
+    hospital_name = hospital.get("name") if isinstance(hospital, dict) else None
+    escort_note = (
+        f" 1 unit assigned as ambulance escort to {hospital_name}."
+        if hospital_name
+        else " 1 unit assigned as ambulance escort (hospital pending)."
+    )
     state.push_message(
         "PoliceAgent",
-        f"{out['units_required']} units dispatched. {out['deployment_instructions']}. [refs: {ref_tag}]",
+        f"{out['units_required']} units dispatched. {out['deployment_instructions']}.{escort_note} [refs: {ref_tag}]",
         COLOR,
     )
     state.push_alert(

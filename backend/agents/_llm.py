@@ -17,7 +17,8 @@ def get_llm():
         return None
     try:
         from langchain_groq import ChatGroq
-        _LLM = ChatGroq(model="llama-3.3-70b-versatile", api_key=key, temperature=0.3)
+        # Groq deprecated llama-3.3-70b-versatile. openai/gpt-oss-20b is fast + active.
+        _LLM = ChatGroq(model="openai/gpt-oss-20b", api_key=key, temperature=0.3)
     except Exception:
         _LLM = None
     return _LLM

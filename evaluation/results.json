@@ -1,0 +1,769 @@
+[
+  {
+    "component": "SupervisingAgent",
+    "n": 12,
+    "accuracy": 1.0,
+    "macro": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "micro": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "per_label": {
+      "congestion": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 3
+      },
+      "fire_hazmat": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 3
+      },
+      "major_accident": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 2
+      },
+      "medical_emergency": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 2
+      },
+      "minor_accident": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 2
+      }
+    },
+    "confusion_matrix": {
+      "labels": [
+        "congestion",
+        "fire_hazmat",
+        "major_accident",
+        "medical_emergency",
+        "minor_accident"
+      ],
+      "matrix": [
+        [
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          3,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          2
+        ]
+      ]
+    },
+    "latency_ms": {
+      "n": 12,
+      "min": 44.69791600422468,
+      "mean": 130.59024308192116,
+      "median": 52.977520499553066,
+      "p90": 327.28234109526977,
+      "p99": 656.2868481448097,
+      "max": 693.224917005864
+    },
+    "cases": [
+      {
+        "id": "gold-01",
+        "expected": "congestion",
+        "predicted": "congestion",
+        "latency_ms": 693.2
+      },
+      {
+        "id": "gold-02",
+        "expected": "congestion",
+        "predicted": "congestion",
+        "latency_ms": 44.7
+      },
+      {
+        "id": "gold-03",
+        "expected": "minor_accident",
+        "predicted": "minor_accident",
+        "latency_ms": 54.5
+      },
+      {
+        "id": "gold-04",
+        "expected": "major_accident",
+        "predicted": "major_accident",
+        "latency_ms": 49.4
+      },
+      {
+        "id": "gold-05",
+        "expected": "major_accident",
+        "predicted": "major_accident",
+        "latency_ms": 357.4
+      },
+      {
+        "id": "gold-06",
+        "expected": "medical_emergency",
+        "predicted": "medical_emergency",
+        "latency_ms": 49.5
+      },
+      {
+        "id": "gold-07",
+        "expected": "fire_hazmat",
+        "predicted": "fire_hazmat",
+        "latency_ms": 55.2
+      },
+      {
+        "id": "gold-08",
+        "expected": "fire_hazmat",
+        "predicted": "fire_hazmat",
+        "latency_ms": 56.0
+      },
+      {
+        "id": "gold-09",
+        "expected": "minor_accident",
+        "predicted": "minor_accident",
+        "latency_ms": 54.0
+      },
+      {
+        "id": "gold-10",
+        "expected": "congestion",
+        "predicted": "congestion",
+        "latency_ms": 51.9
+      },
+      {
+        "id": "gold-11",
+        "expected": "medical_emergency",
+        "predicted": "medical_emergency",
+        "latency_ms": 50.1
+      },
+      {
+        "id": "gold-12",
+        "expected": "fire_hazmat",
+        "predicted": "fire_hazmat",
+        "latency_ms": 51.1
+      }
+    ]
+  },
+  {
+    "component": "IncidentAgent",
+    "n": 12,
+    "severity_exact_accuracy": 1.0,
+    "severity_within_1_accuracy": 1.0,
+    "type_macro_f1": 0.0,
+    "type_micro_f1": 0.0,
+    "type_confusion_matrix": {
+      "labels": [
+        "accident",
+        "congestion",
+        "fire",
+        "hazmat",
+        "medical",
+        "unknown"
+      ],
+      "matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          4
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          2
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          2
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "latency_ms": {
+      "n": 12,
+      "min": 0.0195419997908175,
+      "mean": 38.10586116378545,
+      "median": 48.94493750180118,
+      "p90": 55.08245799137512,
+      "p99": 57.844227996392874,
+      "max": 58.151457997155376
+    },
+    "cases": [
+      {
+        "id": "gold-01",
+        "sev_expected": 2,
+        "sev_predicted": 2,
+        "type_expected": "congestion",
+        "type_predicted": "unknown",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "gold-02",
+        "sev_expected": 3,
+        "sev_predicted": 3,
+        "type_expected": "congestion",
+        "type_predicted": "unknown",
+        "latency_ms": 58.2
+      },
+      {
+        "id": "gold-03",
+        "sev_expected": 2,
+        "sev_predicted": 2,
+        "type_expected": "accident",
+        "type_predicted": "unknown",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "gold-04",
+        "sev_expected": 4,
+        "sev_predicted": 4,
+        "type_expected": "accident",
+        "type_predicted": "unknown",
+        "latency_ms": 55.4
+      },
+      {
+        "id": "gold-05",
+        "sev_expected": 4,
+        "sev_predicted": 4,
+        "type_expected": "accident",
+        "type_predicted": "unknown",
+        "latency_ms": 52.6
+      },
+      {
+        "id": "gold-06",
+        "sev_expected": 4,
+        "sev_predicted": 4,
+        "type_expected": "medical",
+        "type_predicted": "unknown",
+        "latency_ms": 51.4
+      },
+      {
+        "id": "gold-07",
+        "sev_expected": 5,
+        "sev_predicted": 5,
+        "type_expected": "fire",
+        "type_predicted": "unknown",
+        "latency_ms": 45.3
+      },
+      {
+        "id": "gold-08",
+        "sev_expected": 5,
+        "sev_predicted": 5,
+        "type_expected": "hazmat",
+        "type_predicted": "unknown",
+        "latency_ms": 49.0
+      },
+      {
+        "id": "gold-09",
+        "sev_expected": 3,
+        "sev_predicted": 3,
+        "type_expected": "accident",
+        "type_predicted": "unknown",
+        "latency_ms": 45.8
+      },
+      {
+        "id": "gold-10",
+        "sev_expected": 2,
+        "sev_predicted": 2,
+        "type_expected": "congestion",
+        "type_predicted": "unknown",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "gold-11",
+        "sev_expected": 5,
+        "sev_predicted": 5,
+        "type_expected": "medical",
+        "type_predicted": "unknown",
+        "latency_ms": 48.9
+      },
+      {
+        "id": "gold-12",
+        "sev_expected": 4,
+        "sev_predicted": 4,
+        "type_expected": "fire",
+        "type_predicted": "unknown",
+        "latency_ms": 50.7
+      }
+    ]
+  },
+  {
+    "component": "HospitalRoutingAgent",
+    "n": 12,
+    "top1_accuracy": 0.5833333333333334,
+    "top3_accuracy": 0.9166666666666666,
+    "capability_precision_mean": 0.43194444444444446,
+    "capability_recall_mean": 1.0,
+    "latency_ms": {
+      "n": 12,
+      "min": 0.03412499791011214,
+      "mean": 0.19461108240648173,
+      "median": 0.056229000620078295,
+      "p90": 0.0899663951713592,
+      "p99": 1.5291040067677395,
+      "max": 1.7066669970517978
+    },
+    "cases": [
+      {
+        "id": "gold-01",
+        "required": [
+          "emergency"
+        ],
+        "picked": "St Johns Medical College Hospital",
+        "picked_caps": [
+          "burn_unit",
+          "cardiac",
+          "emergency",
+          "icu",
+          "trauma"
+        ],
+        "top1_hit": false,
+        "top3_hit": true,
+        "cap_precision": 0.2,
+        "cap_recall": 1.0,
+        "latency_ms": 0.09
+      },
+      {
+        "id": "gold-02",
+        "required": [
+          "emergency"
+        ],
+        "picked": "Columbia Asia Hospital Hebbal",
+        "picked_caps": [
+          "cardiac",
+          "emergency",
+          "icu",
+          "trauma"
+        ],
+        "top1_hit": false,
+        "top3_hit": true,
+        "cap_precision": 0.25,
+        "cap_recall": 1.0,
+        "latency_ms": 0.07
+      },
+      {
+        "id": "gold-03",
+        "required": [
+          "emergency"
+        ],
+        "picked": "Rainbow Childrens Hospital Marathahalli",
+        "picked_caps": [
+          "cardiac",
+          "emergency",
+          "icu"
+        ],
+        "top1_hit": false,
+        "top3_hit": true,
+        "cap_precision": 0.333,
+        "cap_recall": 1.0,
+        "latency_ms": 0.06
+      },
+      {
+        "id": "gold-04",
+        "required": [
+          "emergency",
+          "trauma"
+        ],
+        "picked": "St Johns Medical College Hospital",
+        "picked_caps": [
+          "burn_unit",
+          "cardiac",
+          "emergency",
+          "icu",
+          "trauma"
+        ],
+        "top1_hit": true,
+        "top3_hit": true,
+        "cap_precision": 0.4,
+        "cap_recall": 1.0,
+        "latency_ms": 0.06
+      },
+      {
+        "id": "gold-05",
+        "required": [
+          "emergency",
+          "trauma"
+        ],
+        "picked": "Sakra World Hospital",
+        "picked_caps": [
+          "cardiac",
+          "emergency",
+          "icu",
+          "trauma"
+        ],
+        "top1_hit": true,
+        "top3_hit": true,
+        "cap_precision": 0.5,
+        "cap_recall": 1.0,
+        "latency_ms": 0.06
+      },
+      {
+        "id": "gold-06",
+        "required": [
+          "cardiac",
+          "emergency"
+        ],
+        "picked": "Manipal Hospital Whitefield",
+        "picked_caps": [
+          "cardiac",
+          "emergency",
+          "icu",
+          "trauma"
+        ],
+        "top1_hit": true,
+        "top3_hit": true,
+        "cap_precision": 0.5,
+        "cap_recall": 1.0,
+        "latency_ms": 0.05
+      },
+      {
+        "id": "gold-07",
+        "required": [
+          "burn_unit",
+          "emergency",
+          "trauma"
+        ],
+        "picked": "Victoria Hospital",
+        "picked_caps": [
+          "burn_unit",
+          "emergency",
+          "icu",
+          "trauma"
+        ],
+        "top1_hit": true,
+        "top3_hit": true,
+        "cap_precision": 0.75,
+        "cap_recall": 1.0,
+        "latency_ms": 0.04
+      },
+      {
+        "id": "gold-08",
+        "required": [
+          "burn_unit",
+          "emergency",
+          "trauma"
+        ],
+        "picked": "St Johns Medical College Hospital",
+        "picked_caps": [
+          "burn_unit",
+          "cardiac",
+          "emergency",
+          "icu",
+          "trauma"
+        ],
+        "top1_hit": true,
+        "top3_hit": true,
+        "cap_precision": 0.6,
+        "cap_recall": 1.0,
+        "latency_ms": 0.03
+      },
+      {
+        "id": "gold-09",
+        "required": [
+          "emergency",
+          "trauma"
+        ],
+        "picked": "St Johns Medical College Hospital",
+        "picked_caps": [
+          "burn_unit",
+          "cardiac",
+          "emergency",
+          "icu",
+          "trauma"
+        ],
+        "top1_hit": true,
+        "top3_hit": true,
+        "cap_precision": 0.4,
+        "cap_recall": 1.0,
+        "latency_ms": 0.05
+      },
+      {
+        "id": "gold-10",
+        "required": [
+          "emergency"
+        ],
+        "picked": "Fortis Hospital Cunningham Road",
+        "picked_caps": [
+          "cardiac",
+          "emergency",
+          "icu",
+          "trauma"
+        ],
+        "top1_hit": false,
+        "top3_hit": false,
+        "cap_precision": 0.25,
+        "cap_recall": 1.0,
+        "latency_ms": 0.05
+      },
+      {
+        "id": "gold-11",
+        "required": [
+          "cardiac",
+          "emergency",
+          "trauma"
+        ],
+        "picked": "St Johns Medical College Hospital",
+        "picked_caps": [
+          "burn_unit",
+          "cardiac",
+          "emergency",
+          "icu",
+          "trauma"
+        ],
+        "top1_hit": true,
+        "top3_hit": true,
+        "cap_precision": 0.6,
+        "cap_recall": 1.0,
+        "latency_ms": 0.06
+      },
+      {
+        "id": "gold-12",
+        "required": [
+          "burn_unit",
+          "emergency"
+        ],
+        "picked": "St Johns Medical College Hospital",
+        "picked_caps": [
+          "burn_unit",
+          "cardiac",
+          "emergency",
+          "icu",
+          "trauma"
+        ],
+        "top1_hit": false,
+        "top3_hit": true,
+        "cap_precision": 0.4,
+        "cap_recall": 1.0,
+        "latency_ms": 1.71
+      }
+    ]
+  },
+  {
+    "component": "MobileViT",
+    "n": 3,
+    "status_accuracy": 0.3333333333333333,
+    "expected_calibration_error": 0.08333333333333331,
+    "confidence_stats": {
+      "n": 3,
+      "min": 0.25,
+      "mean": 0.25,
+      "median": 0.25,
+      "p90": 0.25,
+      "p99": 0.25,
+      "max": 0.25
+    },
+    "latency_ms": {
+      "n": 3,
+      "min": 21.2829590018373,
+      "mean": 772.7844726614421,
+      "median": 26.474624988622963,
+      "p90": 1821.7715921928175,
+      "p99": 2225.7134098137612,
+      "max": 2270.595833993866
+    },
+    "cases": [
+      {
+        "id": "synth-0",
+        "expected": "insufficient_evidence",
+        "predicted": "insufficient_evidence",
+        "confidence": 0.25,
+        "vehicle_count": 0,
+        "injury_indicators": false,
+        "latency_ms": 2270.6
+      },
+      {
+        "id": "synth-1",
+        "expected": "needs_verification",
+        "predicted": "insufficient_evidence",
+        "confidence": 0.25,
+        "vehicle_count": 0,
+        "injury_indicators": false,
+        "latency_ms": 26.5
+      },
+      {
+        "id": "synth-2",
+        "expected": "supported",
+        "predicted": "insufficient_evidence",
+        "confidence": 0.25,
+        "vehicle_count": 0,
+        "injury_indicators": false,
+        "latency_ms": 21.3
+      }
+    ]
+  },
+  {
+    "component": "End-to-end pipeline (agent_graph.invoke)",
+    "n": 12,
+    "latency_ms": {
+      "n": 12,
+      "min": 472.82437499961816,
+      "mean": 886.4277779175609,
+      "median": 687.5711465036147,
+      "p90": 1660.5816164083083,
+      "p99": 1966.5495740134795,
+      "max": 1995.3186670027208
+    },
+    "throughput_incidents_per_min": 67.69,
+    "cases": [
+      {
+        "id": "gold-01",
+        "severity": 2,
+        "protocol_picked": "congestion",
+        "total_ms": 634.7,
+        "messages": 5,
+        "alerts": 0
+      },
+      {
+        "id": "gold-02",
+        "severity": 3,
+        "protocol_picked": "congestion",
+        "total_ms": 818.2,
+        "messages": 5,
+        "alerts": 0
+      },
+      {
+        "id": "gold-03",
+        "severity": 2,
+        "protocol_picked": "congestion",
+        "total_ms": 647.7,
+        "messages": 5,
+        "alerts": 0
+      },
+      {
+        "id": "gold-04",
+        "severity": 4,
+        "protocol_picked": "major_accident",
+        "total_ms": 1001.8,
+        "messages": 9,
+        "alerts": 1
+      },
+      {
+        "id": "gold-05",
+        "severity": 4,
+        "protocol_picked": "major_accident",
+        "total_ms": 472.8,
+        "messages": 9,
+        "alerts": 1
+      },
+      {
+        "id": "gold-06",
+        "severity": 4,
+        "protocol_picked": "major_accident",
+        "total_ms": 677.0,
+        "messages": 9,
+        "alerts": 1
+      },
+      {
+        "id": "gold-07",
+        "severity": 5,
+        "protocol_picked": "major_accident",
+        "total_ms": 1733.8,
+        "messages": 9,
+        "alerts": 1
+      },
+      {
+        "id": "gold-08",
+        "severity": 5,
+        "protocol_picked": "major_accident",
+        "total_ms": 473.9,
+        "messages": 9,
+        "alerts": 1
+      },
+      {
+        "id": "gold-09",
+        "severity": 3,
+        "protocol_picked": "congestion",
+        "total_ms": 968.1,
+        "messages": 5,
+        "alerts": 0
+      },
+      {
+        "id": "gold-10",
+        "severity": 2,
+        "protocol_picked": "congestion",
+        "total_ms": 515.8,
+        "messages": 5,
+        "alerts": 0
+      },
+      {
+        "id": "gold-11",
+        "severity": 5,
+        "protocol_picked": "major_accident",
+        "total_ms": 1995.3,
+        "messages": 9,
+        "alerts": 1
+      },
+      {
+        "id": "gold-12",
+        "severity": 4,
+        "protocol_picked": "major_accident",
+        "total_ms": 698.1,
+        "messages": 9,
+        "alerts": 1
+      }
+    ]
+  }
+]

@@ -1,0 +1,122 @@
+[
+  {
+    "id": "gold-01",
+    "description": "Minor traffic jam at Silk Board, one lane slow",
+    "severity_expected": 2,
+    "protocol_expected": "congestion",
+    "incident_type_expected": "congestion",
+    "location": "Silk Board",
+    "required_capabilities": ["emergency"],
+    "hospital_shortlist": ["Sakra World Hospital", "Manipal Hospital HAL Airport Road", "St Johns Medical College Hospital"]
+  },
+  {
+    "id": "gold-02",
+    "description": "Waterlogging at Hebbal flyover, 2 lanes blocked",
+    "severity_expected": 3,
+    "protocol_expected": "congestion",
+    "incident_type_expected": "congestion",
+    "location": "Hebbal",
+    "required_capabilities": ["emergency"],
+    "hospital_shortlist": ["Aster CMI Hospital", "Columbia Asia Hospital Hebbal", "Baptist Hospital"]
+  },
+  {
+    "id": "gold-03",
+    "description": "Minor rear-end collision at Marathahalli, drivers ok",
+    "severity_expected": 2,
+    "protocol_expected": "minor_accident",
+    "incident_type_expected": "accident",
+    "location": "Marathahalli",
+    "required_capabilities": ["emergency"],
+    "hospital_shortlist": ["Sakra World Hospital", "Rainbow Childrens Hospital Marathahalli"]
+  },
+  {
+    "id": "gold-04",
+    "description": "Two vehicle collision at Koramangala with injuries",
+    "severity_expected": 4,
+    "protocol_expected": "major_accident",
+    "incident_type_expected": "accident",
+    "location": "Koramangala",
+    "required_capabilities": ["trauma", "emergency"],
+    "hospital_shortlist": ["St Johns Medical College Hospital", "Manipal Hospital HAL Airport Road", "Sakra World Hospital"]
+  },
+  {
+    "id": "gold-05",
+    "description": "Major multi-vehicle pileup on ORR near Bellandur with several injured",
+    "severity_expected": 4,
+    "protocol_expected": "major_accident",
+    "incident_type_expected": "accident",
+    "location": "Bellandur",
+    "required_capabilities": ["trauma", "emergency"],
+    "hospital_shortlist": ["Sakra World Hospital", "Manipal Hospital HAL Airport Road", "St Johns Medical College Hospital"]
+  },
+  {
+    "id": "gold-06",
+    "description": "Cardiac emergency reported near Whitefield, ambulance needed",
+    "severity_expected": 4,
+    "protocol_expected": "medical_emergency",
+    "incident_type_expected": "medical",
+    "location": "Whitefield",
+    "required_capabilities": ["cardiac", "emergency"],
+    "hospital_shortlist": ["Manipal Hospital Whitefield", "Columbia Asia Hospital Whitefield", "Sakra World Hospital"]
+  },
+  {
+    "id": "gold-07",
+    "description": "Bus fire at Majestic with smoke, evacuation in progress",
+    "severity_expected": 5,
+    "protocol_expected": "fire_hazmat",
+    "incident_type_expected": "fire",
+    "location": "Majestic",
+    "required_capabilities": ["burn_unit", "trauma", "emergency"],
+    "hospital_shortlist": ["Victoria Hospital", "MS Ramaiah Memorial Hospital", "St Johns Medical College Hospital"]
+  },
+  {
+    "id": "gold-08",
+    "description": "Fuel tanker overturned on Hosur Road, chemical spill",
+    "severity_expected": 5,
+    "protocol_expected": "fire_hazmat",
+    "incident_type_expected": "hazmat",
+    "location": "Hosur Road",
+    "required_capabilities": ["burn_unit", "trauma", "emergency"],
+    "hospital_shortlist": ["St Johns Medical College Hospital", "Victoria Hospital", "BGS Gleneagles Global Hospital"]
+  },
+  {
+    "id": "gold-09",
+    "description": "Pedestrian hit by car at BTM, victim conscious, laceration",
+    "severity_expected": 3,
+    "protocol_expected": "minor_accident",
+    "incident_type_expected": "accident",
+    "location": "BTM Layout",
+    "required_capabilities": ["emergency", "trauma"],
+    "hospital_shortlist": ["St Johns Medical College Hospital", "Sagar Hospital Jayanagar"]
+  },
+  {
+    "id": "gold-10",
+    "description": "Traffic jam due to VIP convoy at Vidhana Soudha",
+    "severity_expected": 2,
+    "protocol_expected": "congestion",
+    "incident_type_expected": "congestion",
+    "location": "Vidhana Soudha",
+    "required_capabilities": ["emergency"],
+    "hospital_shortlist": ["Bowring and Lady Curzon Hospital", "Mallya Hospital"]
+  },
+  {
+    "id": "gold-11",
+    "description": "Ambulance stuck in traffic near Silk Board, patient critical",
+    "severity_expected": 5,
+    "protocol_expected": "medical_emergency",
+    "incident_type_expected": "medical",
+    "location": "Silk Board",
+    "required_capabilities": ["trauma", "cardiac", "emergency"],
+    "hospital_shortlist": ["St Johns Medical College Hospital", "Manipal Hospital HAL Airport Road", "Sakra World Hospital"]
+  },
+  {
+    "id": "gold-12",
+    "description": "Building fire near Indiranagar, smoke on road affecting traffic",
+    "severity_expected": 4,
+    "protocol_expected": "fire_hazmat",
+    "incident_type_expected": "fire",
+    "location": "Indiranagar",
+    "required_capabilities": ["burn_unit", "emergency"],
+    "hospital_shortlist": ["Manipal Hospital HAL Airport Road", "St Johns Medical College Hospital"]
+  }
+]

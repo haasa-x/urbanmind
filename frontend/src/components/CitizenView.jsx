@@ -80,6 +80,7 @@ export default function CitizenView() {
   const [submitting, setSubmitting] = useState(false)
   const [toast, setToast] = useState(null)
   const [reportedIncident, setReportedIncident] = useState(null)
+  const [makeWay, setMakeWay] = useState(null)
 
   useEffect(() => {
     let es
@@ -92,11 +93,21 @@ export default function CitizenView() {
           if (evt.type === 'SET_DENSITY') setState(s => ({ ...s, density: { ...s.density, ...evt.data } }))
           if (evt.type === 'SET_NARRATOR') setState(s => ({ ...s, narrator_outputs: { ...s.narrator_outputs, ...evt.data } }))
           if (evt.type === 'ADD_ALERT') setState(s => ({ ...s, department_alerts: [...(s.department_alerts || []), { ...evt.data, timestamp: new Date().toISOString() }] }))
+          if (evt.type === 'CITIZEN_MAKE_WAY') {
+            setMakeWay({ ...evt.data, shownAt: Date.now() })
+          }
         } catch {}
       }
     } catch {}
     return () => es && es.close()
   }, [])
+
+  // Auto-dismiss the make-way banner 20s after it appears.
+  useEffect(() => {
+    if (!makeWay) return
+    const id = setTimeout(() => setMakeWay(null), 20000)
+    return () => clearTimeout(id)
+  }, [makeWay && makeWay.shownAt])
 
   const submitRoute = async (e) => {
     e && e.preventDefault && e.preventDefault()
@@ -196,7 +207,33 @@ export default function CitizenView() {
   const incidentSevMeta = reportedIncident ? severityMeta(reportedIncident.severity) : null
 
   return (
-    <div style={{ padding: 20, color: 'var(--text)', minHeight: '100vh', display: 'grid', gridTemplateColumns: '1fr 420px', gap: 16 }}>
+    <div style={{ padding: 20, color: 'var(--text)', minHeight: '100vh', display: 'grid', gridTemplateColumns: '1fr 420px', gap: 16, position: 'relative' }}>
+      {makeWay && (
+        <div
+          onClick={() => setMakeWay(null)}
+          style={{
+            position: 'fixed', top: 0, left: 0, right: 0, zIndex: 5000,
+            padding: '14px 24px',
+            background: 'rgba(239,68,68,0.15)',
+            borderLeft: '4px solid #ef4444',
+            borderBottom: '1px solid rgba(239,68,68,0.6)',
+            color: '#fff', cursor: 'pointer',
+            animation: 'slideDown 0.35s ease-out',
+            boxShadow: '0 6px 20px rgba(239,68,68,0.25)',
+          }}
+        >
+          <style>{`@keyframes slideDown { from { transform: translateY(-100%); opacity: 0 } to { transform: translateY(0); opacity: 1 } }`}</style>
+          <div style={{ fontSize: 15, fontWeight: 800, letterSpacing: '0.08em', color: '#fecaca' }}>
+            🚨 AMBULANCE APPROACHING — PLEASE MAKE WAY
+          </div>
+          <div style={{ fontSize: 13, marginTop: 4, color: '#fff' }}>{makeWay.message}</div>
+          <div style={{ fontSize: 11, marginTop: 4, color: '#fecaca', opacity: 0.9 }}>
+            Destination: <b>{makeWay.hospital}</b>
+            {makeWay.eta_min ? <> · ETA <b>{makeWay.eta_min} min</b></> : null}
+            <span style={{ float: 'right', opacity: 0.7 }}>tap to dismiss</span>
+          </div>
+        </div>
+      )}
       <div style={{ borderRadius: 10, overflow: 'hidden', border: '1px solid var(--border)', minHeight: '80vh' }}>
         <MapContainer center={mapCenter} zoom={sc.mapZoom} style={{ height: '100%', width: '100%' }} scrollWheelZoom>
           <TileLayer url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png" attribution='&copy; Stadia Maps &copy; OpenMapTiles &copy; OSM' maxZoom={20} />

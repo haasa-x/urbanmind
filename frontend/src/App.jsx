@@ -6,7 +6,6 @@ import AgentWorkflowPanel from './components/AgentWorkflowPanel'
 import AgentTraceLog from './components/AgentTraceLog'
 import NarratorPanel from './components/NarratorPanel'
 import DepartmentAlertFeed from './components/DepartmentAlertFeed'
-import MetricsStrip from './components/MetricsStrip'
 import CockpitSidebar from './components/CockpitSidebar'
 import CitizenView from './components/CitizenView'
 import CounterfactualPanel from './components/CounterfactualPanel'
@@ -36,12 +35,12 @@ function Dashboard() {
   const [hospital, setHospital] = useState(null)
   const [alerts, setAlerts] = useState([])
   const [narrator, setNarrator] = useState({ operator: '', public: '', audit: '' })
-  const [metrics, setMetrics] = useState({ vehicle_minutes_saved: 0, co2_avoided_kg: 0, corridors_cleared: 0, incidents_prevented: 0 })
   const [banner, setBanner] = useState(null)
   const [customBanner, setCustomBanner] = useState(null)
   const [mode, setMode] = useState('flow')
   const [sseConnected, setSse] = useState(false)
   const [activeAgents, setActiveAgents] = useState(new Set())
+  const [completedAgents, setCompletedAgents] = useState(new Set())
   const [running, setRunning] = useState(false)
   const [severity, setSeverity] = useState(3)
   const [analyzing, setAnalyzing] = useState(false)
@@ -183,9 +182,9 @@ function Dashboard() {
     setHospital(null)
     setAlerts([])
     setNarrator({ operator: '', public: '', audit: '' })
-    setMetrics({ vehicle_minutes_saved: 0, co2_avoided_kg: 0, corridors_cleared: 0, incidents_prevented: 0 })
     setBanner(null)
     setActiveAgents(new Set())
+    setCompletedAgents(new Set())
     setRouteInfo({ primary: null, alt1: null, alt2: null })
     setSupervisorPlan(null)
     setMedicalAssessments([])
@@ -198,12 +197,17 @@ function Dashboard() {
     else if (type === 'ADD_MESSAGE') {
       const agentName = data.agent || 'System'
       addMessage({ agent: agentName, text: data.text, color: data.color || '#8b5cf6' })
+      const shortName = agentName.replace('Agent', '').replace('🌐 ', '').trim()
       setActiveAgents(prev => {
-        const s = new Set(prev); s.add(agentName.replace('Agent', '').replace('🌐 ', '').trim())
+        const s = new Set(prev); s.add(shortName)
+        return s
+      })
+      setCompletedAgents(prev => {
+        const s = new Set(prev); s.add(shortName)
         return s
       })
       setTimeout(() => setActiveAgents(prev => {
-        const s = new Set(prev); s.delete(agentName.replace('Agent', '').replace('🌐 ', '').trim())
+        const s = new Set(prev); s.delete(shortName)
         return s
       }), 2500)
     }
@@ -224,6 +228,7 @@ function Dashboard() {
       setAlerts([])
       setNarrator({ operator: '', public: '', audit: '' })
       setActiveAgents(new Set())
+      setCompletedAgents(new Set())
       setHospital(null)
       setRouteInfo({ primary: null, alt1: null, alt2: null })
       setScenarioData(data)
@@ -246,11 +251,6 @@ function Dashboard() {
     }
     else if (type === 'ADD_ALERT') setAlerts(a => [...a, { ...data, timestamp: new Date().toISOString() }])
     else if (type === 'SET_NARRATOR') setNarrator(n => ({ ...n, ...data }))
-    else if (type === 'INCREMENT_METRICS') setMetrics(m => {
-      const out = { ...m }
-      Object.entries(data).forEach(([k, v]) => { out[k] = (out[k] || 0) + v })
-      return out
-    })
     else if (type === 'SET_COMPLETION') {
       setBanner(data.text)
       if (data.text) setTimeout(() => setBanner(null), 5000)
@@ -274,6 +274,7 @@ function Dashboard() {
         setActiveAgents(prev => { const s = new Set(prev); s.add(agentName); return s })
       } else if (data.status === 'completed') {
         setActiveAgents(prev => { const s = new Set(prev); s.add(agentName); return s })
+        setCompletedAgents(prev => { const s = new Set(prev); s.add(agentName); return s })
         setTimeout(() => setActiveAgents(prev => { const s = new Set(prev); s.delete(agentName); return s }), 2500)
       }
     }
@@ -453,7 +454,6 @@ function Dashboard() {
           <RoutePanel routeVisible={routeVisible} hospital={hospital} hospitalName={hospital && hospital.name} primaryRoute={routeInfo && routeInfo.primary} altRoute1={routeInfo && routeInfo.alt1} altRoute2={routeInfo && routeInfo.alt2} />
         </div>
       </div>
-      <MetricsStrip metrics={metrics} severity={severity} scenarioActive={scenarioActive || !!customBanner} />
       {supervisorPlan && (
         <div className="glass-card">
           <div className="section-title">Supervisor Plan</div>
@@ -481,7 +481,7 @@ function Dashboard() {
       )}
       <div className="agents-row">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <AgentWorkflowPanel activeAgents={activeAgents} severity={severity} supervisorPlan={supervisorPlan} />
+          <AgentWorkflowPanel activeAgents={activeAgents} completedAgents={completedAgents} severity={severity} supervisorPlan={supervisorPlan} />
           <AgentTraceLog messages={displayedMessages} />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
