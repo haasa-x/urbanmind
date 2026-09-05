@@ -1,4 +1,4 @@
-# UrbanMind 2.0
+# UrbanMind 
 
 Autonomous multi-agent traffic intelligence system for Bangalore.
 
